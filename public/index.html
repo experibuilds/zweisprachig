@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zweisprachig – bilingual team updates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9EDF3; --surface:#FFFFFF; --ink:#18203A; --muted:#5B6584;
+  --line:#C9D1DF; --blue:#2E44D1; --gold:#D9A21B; --onblue:#FFFFFF;
+  --soft:#F4F6FA; --err:#B3261E;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11152A; --surface:#1A2040; --ink:#E8EBF7; --muted:#9AA3C4;
+    --line:#2E3762; --blue:#7C8CFF; --gold:#F0C04A; --onblue:#0E1230;
+    --soft:#151A35; --err:#FF8A80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11152A; --surface:#1A2040; --ink:#E8EBF7; --muted:#9AA3C4;
+  --line:#2E3762; --blue:#7C8CFF; --gold:#F0C04A; --onblue:#0E1230;
+  --soft:#151A35; --err:#FF8A80; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 20px 64px}
+h1{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,7vw,4.6rem);line-height:.95;letter-spacing:-.03em;margin:0}
+.title{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15em .4em}
+.title .de{color:var(--gold)}
+.title .slash{color:var(--line);font-weight:500}
+.title .en{color:var(--blue)}
+.lede{color:var(--muted);max-width:56ch;margin:14px 0 32px;font-size:1.05rem}
+.composer{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+label.lbl{display:block;font-weight:600;margin-bottom:8px}
+textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);font:inherit;padding:12px 14px;line-height:1.5}
+textarea:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.examples span{color:var(--muted);font-size:.9rem;align-self:center}
+.chip{border:1px dashed var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:.88rem;cursor:pointer}
+.chip:hover{border-color:var(--blue);color:var(--blue)}
+.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:end;margin-top:18px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:.92rem;padding:8px 14px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.field small{display:block;color:var(--muted);font-size:.82rem;margin-bottom:6px}
+.go{margin-left:auto;background:var(--blue);color:var(--onblue);border:0;border-radius:10px;padding:12px 22px;font:600 1rem/1 "IBM Plex Sans",sans-serif;cursor:pointer}
+.go[disabled]{opacity:.55;cursor:progress}
+.status{min-height:1.4em;margin:14px 2px 0;color:var(--muted);font-size:.92rem}
+.status.err{color:var(--err)}
+.out{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.out.single{grid-template-columns:1fr}
+.pane{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pane[hidden]{display:none}
+.pane header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)}
+.pane.de header{border-top:5px solid var(--gold)}
+.pane.en header{border-top:5px solid var(--blue)}
+.pane h2{margin:0;font:600 1rem/1.2 "IBM Plex Sans",sans-serif}
+.copy{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:.86rem;cursor:pointer}
+.copy:hover{border-color:var(--ink)}
+.msg{padding:16px;white-space:pre-wrap;word-wrap:break-word;min-height:120px;flex:1}
+.msg.empty{color:var(--muted);font-style:italic}
+.combo{display:flex;justify-content:flex-end;margin-top:14px}
+.combo[hidden]{display:none}
+.copyall{background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:600 .95rem/1 "IBM Plex Sans",sans-serif;cursor:pointer}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem}
+@media (max-width:720px){
+  .out{grid-template-columns:1fr}
+  .go{margin-left:0;width:100%}
+  .wrap{padding-top:28px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pane.fresh{animation:pop .35s ease-out}
+  @keyframes pop{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1 class="title" aria-label="Zweisprachig: German and English"><span class="de">Deutsch</span><span class="slash">/</span><span class="en">English</span></h1>
+  <p class="lede">Paste your rough dev notes. Get a team-ready Slack update in German and English, side by side.</p>
+
+  <section class="composer" aria-label="Your notes">
+    <label class="lbl" for="notes">Your notes</label>
+    <textarea id="notes" placeholder="fixed login bug, PR #42 ready for review, postgres query was slow → added index, off friday"></textarea>
+    <div class="examples" aria-label="Examples">
+      <span>Try:</span>
+      <button class="chip" type="button" data-ex="merged auth refactor, PR #118. staging deploy done. still need someone to review the migration script. db backup ran fine">Weekly wrap</button>
+      <button class="chip" type="button" data-ex="prod down 10 min at 14:20, cause: expired SSL cert. renewed + added monitoring alert. sorry all">Incident</button>
+      <button class="chip" type="button" data-ex="tip: in claude code you can start your 5h session window earlier by sending a short message first thing in the morning. saves time later">Team tip</button>
+    </div>
+
+    <div class="controls">
+      <div class="field">
+        <small id="toneL">Tone</small>
+        <div class="seg" role="group" aria-labelledby="toneL" data-key="tone">
+          <button type="button" data-v="casual" aria-pressed="true">Casual</button>
+          <button type="button" data-v="funny" aria-pressed="false">Funny</button>
+          <button type="button" data-v="neutral" aria-pressed="false">Neutral</button>
+        </div>
+      </div>
+      <div class="field">
+        <small id="langL">Output</small>
+        <div class="seg" role="group" aria-labelledby="langL" data-key="lang">
+          <button type="button" data-v="both" aria-pressed="true">Both</button>
+          <button type="button" data-v="de" aria-pressed="false">Deutsch</button>
+          <button type="button" data-v="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+      <div class="field">
+        <small id="emoL">Emoji</small>
+        <div class="seg" role="group" aria-labelledby="emoL" data-key="emoji">
+          <button type="button" data-v="some" aria-pressed="true">Some</button>
+          <button type="button" data-v="none" aria-pressed="false">None</button>
+        </div>
+      </div>
+      <button class="go" id="go" type="button">Write update</button>
+    </div>
+  </section>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <section class="out" id="out" aria-label="Your Slack update">
+    <article class="pane de" id="paneDe">
+      <header><h2 lang="de">Deutsch</h2><button class="copy" type="button" data-target="msgDe">Copy</button></header>
+      <div class="msg empty" id="msgDe" lang="de">Dein Update erscheint hier.</div>
+    </article>
+    <article class="pane en" id="paneEn">
+      <header><h2>English</h2><button class="copy" type="button" data-target="msgEn">Copy</button></header>
+      <div class="msg empty" id="msgEn">Your update appears here.</div>
+    </article>
+  </section>
+  <div class="combo" id="combo" hidden><button class="copyall" id="copyAll" type="button">Copy both as one message</button></div>
+
+  <footer>Your notes aren’t stored.</footer>
+</main>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const state = {tone:"casual", lang:"both", emoji:"some"};
+  try{ const s = JSON.parse(localStorage.getItem("zw-prefs")||"null"); if(s) Object.assign(state,s); }catch(e){}
+
+  function syncSegs(){
+    document.querySelectorAll(".seg").forEach(seg=>{
+      const k = seg.dataset.key;
+      seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.v===state[k])));
+    });
+    const l = state.lang;
+    $("paneDe").hidden = l==="en";
+    $("paneEn").hidden = l==="de";
+    $("out").classList.toggle("single", l!=="both");
+  }
+  document.querySelectorAll(".seg").forEach(seg=>{
+    seg.addEventListener("click", e=>{
+      const b = e.target.closest("button"); if(!b) return;
+      state[seg.dataset.key] = b.dataset.v;
+      try{ localStorage.setItem("zw-prefs", JSON.stringify(state)); }catch(e){}
+      syncSegs(); updateCombo();
+    });
+  });
+  syncSegs();
+
+  document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{ $("notes").value=c.dataset.ex; $("notes").focus(); }));
+
+  const status = (t, err) => { const s=$("status"); s.textContent=t||""; s.classList.toggle("err", !!err); };
+
+  const result = {de:"", en:""};
+  function show(id, text, ph){
+    const el=$(id);
+    if(text){ el.textContent=text; el.classList.remove("empty"); }
+    else { el.textContent=ph; el.classList.add("empty"); }
+  }
+  function updateCombo(){ $("combo").hidden = !(state.lang==="both" && result.de && result.en); }
+
+  async function run(){
+    const notes = $("notes").value.trim();
+    if(!notes){ status("Add a few notes first, then press Write update.", true); $("notes").focus(); return; }
+    const go=$("go"); go.disabled=true; go.textContent="Writing…"; status("Writing your update…");
+    try{
+      const r = await fetch("/api/write", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({notes, tone:state.tone, emoji:state.emoji})});
+      const out = await r.json().catch(()=>({}));
+      if(!r.ok) throw {code: r.status===429 ? "rate_limited" : "server"};
+      result.de = String(out && out.de || "").trim();
+      result.en = String(out && out.en || "").trim();
+      if(!result.de && !result.en) throw {code:"empty"};
+      show("msgDe", result.de, "Dein Update erscheint hier.");
+      show("msgEn", result.en, "Your update appears here.");
+      ["paneDe","paneEn"].forEach(id=>{ const p=$(id); p.classList.remove("fresh"); void p.offsetWidth; p.classList.add("fresh"); });
+      status("Ready. Copy and paste into Slack.");
+      updateCombo();
+    }catch(err){
+      const c = err && err.code;
+      if(c==="rate_limited") status("Too many requests right now. Wait a minute, then press Write update again.", true);
+      else status("Couldn’t write the update. Shorten your notes and press Write update again.", true);
+    }finally{ go.disabled=false; go.textContent="Write update"; }
+  }
+  $("go").addEventListener("click", run);
+  $("notes").addEventListener("keydown", e=>{ if(e.key==="Enter" && (e.metaKey||e.ctrlKey)) run(); });
+
+  async function copyText(t, btn){
+    try{ await navigator.clipboard.writeText(t); }
+    catch(e){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(_){} ta.remove(); }
+    const o=btn.textContent; btn.textContent="Copied"; setTimeout(()=>btn.textContent=o,1400);
+  }
+  document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
+    const k = b.dataset.target==="msgDe" ? "de" : "en";
+    if(!result[k]){ status("Write an update first, then copy it.", true); return; }
+    copyText(result[k], b);
+  }));
+  $("copyAll").addEventListener("click", e=>copyText(`🇩🇪 ${result.de}\n\n🇬🇧 ${result.en}`, e.currentTarget));
+})();
+</script>
+</body>
+</html>

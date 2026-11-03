@@ -1,0 +1,8 @@
+{
+  "name": "zweisprachig",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Rough dev notes → bilingual (DE/EN) Slack update",
+  "engines": { "node": ">=20" }
+}
