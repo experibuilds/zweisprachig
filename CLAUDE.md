@@ -1,6 +1,6 @@
 # Zweisprachig — rules for Claude Code
 
-App: static page `public/index.html` + serverless `api/write.js` (Gemini free tier). Hosted on Vercel, repo on GitHub.
+App: static page `public/index.html` + serverless `api/write.js` (Groq → OpenRouter → Gemini fallback, all free). Hosted on Vercel, repo on GitHub.
 
 ## Every iteration
 1. Make the change. Keep it small and focused.

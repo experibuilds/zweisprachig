@@ -1,5 +1,5 @@
 # Zweisprachig
-Rough dev notes → bilingual (DE/EN) Slack update. Free (Gemini free tier).
+Rough dev notes → bilingual (DE/EN) Slack update. Free (Groq → OpenRouter → Gemini free tiers).
 
 ## Go live (once, ~5 min)
 ```bash
